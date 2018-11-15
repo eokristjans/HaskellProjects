@@ -9,13 +9,14 @@
 
 ### Listar og straumar
 Enginn munur á listum og straumum
+
     * `[1..]` er heil straumurinn
     * `take 10 [1..]` == `[1..10]` eru 10 fyrstu tölurnar er heil straumurinn
     * `[1,3..]` oddatölustraumurinn
     * `[x^2|x<-[1..20]]` prentar 20 fyrstu heiltölurnar í öðru veldi
     * `[20,19..1]` minnkandi listi
     * `head tail last init` skila haus, hala, síðsta og svo öllu nema síðasta stakinu. 
-    * `Null` gáir hvort listi sé tómur
+    * `null` gáir hvort listi sé tómur
 ```
     ghci> null [1,2,3]  
     False  
@@ -58,7 +59,9 @@ Enginn munur á listum og straumum
  * `let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluti af útkomunni
 
 ### Föll
+
 * `foldr` og `foldl` taka eitt viðfang, skila falli sem tekur eitt viðfang, sem skilar falli sem skilar gildi.
+
     * Keimlík `listit` og `itlist`.
     * `\` er jafngild `fun` eða `lambda`
     * `foldr (\x y->x-y) 0 [1,2,3,4,5]` reiknar aftan frá, þ.e.  (1 - (2 - (3 - (4 - (5 - 0))))) = 3
