@@ -15,7 +15,7 @@ Enginn munur á listum og straumum
     * `[x^2|x<-[1..20]]` prentar 20 fyrstu heiltölurnar í öðru veldi
 
 ### Lazy evaluation
-    * `let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluti af útkomunni
+ * `let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluti af útkomunni
 
     * `foldr` og `foldl` taka eitt viðfang, skila falli sem tekur eitt viðfang, sem skilar falli sem skilar gildi.
         * Keimlík `listit` og `itlist`.
