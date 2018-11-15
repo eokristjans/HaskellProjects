@@ -14,7 +14,9 @@ Enginn munur á listum og straumum
     * `[x^2|x<-[1..20]]` prentar 20 fyrstu heiltölurnar í öðru veldi
 
 ### Lazy evaluation
-`let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluta af útkomunni
+`let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluti af útkomunni
 
 ### Keyrsluumhverfi
-    * Hægt að hlaða inn skrá í keyrsluumhverfi með `:load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs`
+    * Hægt að hlaða inn skrá í keyrsluumhverfi með 
+    ```:load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs```
+    
