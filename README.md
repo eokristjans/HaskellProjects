@@ -17,6 +17,6 @@ Enginn munur á listum og straumum
 `let f x y = x`   `f 1 [1..]`     skilar `1` því það er aldrei reiknað úr heiltölulistanum sem er ekki hluti af útkomunni
 
 ### Keyrsluumhverfi
-    * Hægt að hlaða inn skrá í keyrsluumhverfi með 
+Hægt að hlaða inn skrá í keyrsluumhverfi með 
+
     ```:load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs```
-    
