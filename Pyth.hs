@@ -1,20 +1,16 @@
 -- Höfundur: Snorri Agnarsson, snorri@hi.is
 
 -- Þýðið með eftirfarandi skipun:
---   ghc -o Pyth.exe --make Pyth.hs
+--       ghc -o Pyth.exe --make Pyth.hs
 
--- Óendanlegur listi Pythagorasarþrennda
--- {(x,y,z) : x,y,z náttúrulegar tölur, x^2+y^2=z^2, gcd(gcd(x,y),z)=1}
 pyth1 =
   [(x,y,z) | y <- [2..], 
-             x <- [1..(y-1)], -- látum x hlaupa upp í endanlega tölu, annars fengjum við aldrei neitt
+             x <- [1..(y-1)],
              let z=floor $ sqrt $ fromIntegral (x^2+y^2),
              x^2+y^2==z^2,
              (gcd (gcd x y) z)==1
   ]
 
--- Jafngilt pyth1
--- Einstæða (e. monad)
 pyth2 = 
   do { y <- [2..]
      ; x <- [1..(y-1)]
@@ -23,8 +19,6 @@ pyth2 =
      ; if (gcd (gcd x y) zz)==1 then [(x,y,zz)] else []
      }
 
-
--- Jafngilt pyth1
 pyth3 = 
   [2..] >>= \y ->
   [1..(y-1)] >>= \x ->
@@ -43,6 +37,58 @@ pyth3 =
     else
       []
 
+pyth4 = 
+  concatMap
+    (\y ->
+      (
+        filter
+          (\(x,y,z) -> (gcd (gcd x y) z)==1)
+          (filter
+            (\(x,y,z) -> x^2+y^2==z^2)
+            (concatMap
+              (
+                \x ->
+                  let 
+                    z=floor (sqrt (fromIntegral (x^2+y^2)))
+                  in
+                    [(x,y,z)]
+              )
+              [1..(y-1)]
+            )
+          )
+      )
+    )
+    [2..]
+
+pyth5 = 
+  filter
+    (\(x,y,z) -> (gcd (gcd x y) z)==1)
+    (filter
+      (\(x,y,z) -> x^2+y^2==z^2)
+      (concatMap
+        (
+          \y ->
+          (
+            concatMap
+              (
+                \x ->
+                  let 
+                    z=floor (sqrt (fromIntegral (x^2+y^2)))
+                  in
+                    [(x,y,z)]
+              )
+              [1..(y-1)]
+          )
+        )
+        [2..]
+      )
+    )
+
 main :: IO ()
 main =
-    do { print (take 100 pyth1) }
+    do
+      print (take 10 pyth1)
+      print (take 10 pyth2)
+      print (take 10 pyth3)
+      print (take 10 pyth4)
+      print (take 10 pyth5)
