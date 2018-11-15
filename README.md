@@ -18,5 +18,6 @@ Enginn munur á listum og straumum
 
 ### Keyrsluumhverfi
 Hægt að hlaða inn skrá í keyrsluumhverfi með 
-
-    ```:load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs```
+    ```
+    :load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs
+    ```
