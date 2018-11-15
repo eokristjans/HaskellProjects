@@ -18,6 +18,10 @@ Enginn munur á listum og straumum
 
 ### Keyrsluumhverfi
 Hægt að hlaða inn skrá í keyrsluumhverfi með 
+
     ```
     :load "/home/erling/Documents/Forritunarmal/HaskellProjects/[fileName].hs
     ```
+
+_virkar reyndar samt ekki að keyra t.d. `take 10 pyth1` eftir að hafa hlaðið því inn_
+
