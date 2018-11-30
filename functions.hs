@@ -76,9 +76,7 @@ Gildi:    summa kvaðrata talnanna í x
 squaresum x = 
   if null x
     then 0
-    else if null (tail x)
-      then (head x)
-      else squaresum ( (head x)*(head x)+(head (tail x))*(head (tail x)) : (tail (tail x)) )
+    else 
 
 {-
 

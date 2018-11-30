@@ -21,7 +21,13 @@ Prelude> listAll 8 8 (\x -> x+1)
 -- Notkun:  y = powerList x
 -- Fyrir:   x er listi, x = [x1,x2,...,xN]
 -- Eftir:   y er listi sem inniheldur alla undirlista x
-powerList l = if null l then [[]] else append (powerList (tail l)) (map (\z -> ((head l):z)) (powerList (tail l)))
+powerList l = 
+  if null l
+    then [[]]
+    else append (powerList (tail l)) 
+                (map (\z -> ((head l):z)) (powerList (tail l)))
+
+powerList l = if null l then [[]] else (powerList (tail l)) ++ (map (\z -> ((head l):z)) (powerList (tail l)))
 
 -- Hjálparfall fyrir einstaklingsverkefni 2
 -- Notkun:  z = append x y

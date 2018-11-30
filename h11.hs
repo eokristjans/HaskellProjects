@@ -24,8 +24,13 @@ foldl (\x y -> [y]:x) [] 1
 --              þ.s. N,M,K,L eru náttúrulegar tölur
 -- Eftir:   y er summa margfeldanna af gildum innri listanna
 --          þ.e.a.s. y = x11*...*x1N + x21*+++*x2M + xK1*...*xKL
-sumOfProducts l = auxFunc l 0.0 where auxFunc x u | null x = u | otherwise = auxFunc (tail x) (1.0 * product (head x) + u)
+sumOfProducts l = 
+  auxFunc l 0.0 
+    where auxFunc x u
+      | null x = u
+      | otherwise = auxFunc (tail x) (1.0 * product (head x) + u)
 
+sumOfProducts l = auxFunc l 0.0 where auxFunc x u | null x = u | otherwise = auxFunc (tail x) (1.0 * product (head x) + u) 
 {-
 product (head [[2,3],[4,5]])
 6
