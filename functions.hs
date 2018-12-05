@@ -271,12 +271,19 @@ powerList x =
 
 {-        SKOÐA / ENDURGERA Í STUÐI
 e5.1    Halaendurkvæmt (\r p q -> rem r (p ^ q))
-Notkun:   remainder r p q
-Fyrir:    r p q jákvæðar heiltölur
+Notkun:   remainder p q r
+Fyrir:    0 < p < r, q >= 0 heiltölur
 Gildi:    rem r (p ^ q)
 -}
-
-
+remainder p q r =
+  hjalp 1 p q
+  where
+    hjalp x p q =
+      if q == 0
+        then x
+        else if rem q 2 == 0
+          then hjalp x (p*p) (div q 2)
+          else hjalp (rem (x*p) r) p (q-1)
 
 
 {-
@@ -298,14 +305,156 @@ Scheme lausn:
 )
 -}
 streamCross a b = ((map (\x -> ( (head a),x) ) b) : (streamCross (tail a) b))
-take 5 (map (\s -> take 5 s) (streamCross [1..] [1..])) -- prófunarfall
+e52 = take 5 (map (\s -> take 5 s) (streamCross [1..] [1..])) -- prófunarfall
 
 
 {-
+h6.1    mapReduce   Halaendurkvæmt, reiknar frá vinstri til hægri
+Notkun:   mapReduce f op u x
+Fyrir:    f fall, op tvíundaraðgerð, u gildi og x listi gilda
+Gildi:    u op f(x1) op f(x2) op ... op f(xN)
+-}
+mapReduce f op u x = 
+  if null (tail x)
+    then op u (f (head x))
+    else mapReduce f op (op u (f (head x))) (tail x)
 
-Notkun:   
+
+{-
+e6.1    reikna lengd lista með foldr (list_it)
+Notkun:   lengd x
+Fyrir:    x er listi
+Gildi:    lengd listans x
+-}
+lengd x = foldr (\y l -> l+1) 0 x
+  
+
+{-
+IT_LIST == FOLDL
+Notkun:   it_list f u x
+Fyrir:    f er tvíundaraðgerð
+          u er gildi af tagi A
+          x er listi gilda af tagi B
+Gildi:    u+x1+x2+..+xN reiknað frá vinstri til hægri, þar sem a+b = f a b
+-}
+it_list f u x =
+  if null x
+    then u 
+    else it_list f (f u (head x)) (tail x)
+
+
+{-
+LIST_IT == FOLDR 
+Notkun:   list_it f x u
+Fyrir:    f er tvíundaraðgerð
+          x er listi gilda af tagi B
+          u er gildi af tagi A
+Gildi:    x1+x2+..+xN+u reiknað frá  hægri til vinstri, þar sem a+b = f a b
+-}
+list_it f u x =
+  if null x
+    then u 
+    else f (head x) (list_it f x (tail x))
+
+{-
+e6.2 POWERLIST
+Notkun:   powLi x 
+Fyrir:    x er listi
+Gildi:    allir undirlistar x
+-}
+powLi x = 
+  if null x
+    then [[]]
+    else (powLi (tail x)) ++ (map (\a -> ((head x):a)) (powLi (tail x)))
+
+
+{-
+h7.1-2 filter
+Notkun:   filter f x
+Fyrir:    f er fall sem skilar satt/ósatt
+Gildi:    x er listi
+-}
+myFilter f x
+  | null x      = []
+  | f (head x)  = (head x) : (myFilter f (tail x))
+  | otherwise   = myFilter f (tail x)
+
+
+{-
+h7.3    Prímtölustraumur
+Notkun:   primes
 Fyrir:    
-Gildi:    
+Gildi:    Straumur allra prímtalna án endurtekninga í vaxandi röð
+-}
+primes = 2 : myFilter (\n -> (isPrime primes n)) [3,5..]
+
+isPrime s n
+  | ((head s)*(head s) > n)   = True
+  | (rem n (head s) ) == 0    = False
+  | otherwise                 = isPrime (tail s) n
+
+{-
+e7.1
+Notkun:   intPowLi n
+Fyrir:    n >= 0 heiltala
+Gildi:    allar umraðanir listans [n, n-1, ... 2, 1]
+-}
+intPowLi n =
+  if n == 0
+    then [[]]
+    else (intPowLi (n-1)) ++ (map (\a -> (n:a)) (intPowLi (n-1)))
+
+veldiAfTveimur = map lengd (map (\n -> (intPowLi n)) [1..20])
+
+{-
+myZipWith     virkar líka á mislanga lista í Haskell
+Notkun:   myZipWith f x y
+Fyrir:    f fall, x og y jafnlangir listar
+Gildi:    [f(x1,y1),...,f(xN,yN)]
+-}
+myZipWith f x y = (f x y) : (myZipWith f (tail x) (tail y) )
+
+trZipWith f x y =
+  trZipWithHelp f x y []
+  where 
+    trZipWithHelp f x y z = 
+      if null x 
+        then z 
+        else trZipWithHelp f (tail x) (tail y) a
+        where a = z ++ [(f (head x) (head y))]
+
+{-
+h11.1   reverse með foldl eða foldr
+Notkun:   h111 x
+Fyrir:    x=[x1,x2,...,xN] er listi
+Gildi:    [[xN],...,[x2],[x1]]
+-}
+h111 x = foldl (\a b -> [b]:a) [] x
+
+
+{-
+h11.2   
+Notkun:   sumProd x
+Fyrir:    x er listi lista af fleytitölum
+Gildi:    summa af margfeldi af gildum innri listanna
+-}
+sumProd x = 
+  if null x
+    then 0
+    else (prod (head x)) + (sumProd (tail x))
+  where
+    prod a =
+      if null a 
+        then 1
+        else (head a) * (prod (tail a))
+
+h112 = sumProd (take 3 (cycle [[1..5]]))
+
+{-
+h11.2++
+Notkun:   minMax x
+Fyrir:    x er listi lista af fleytitölum
+Gildi:    minsta talan af stærstu tölum innri listanna
 -}
 
 
@@ -326,6 +475,21 @@ Gildi:
 -}
 
 
+{-
+
+Notkun:   
+Fyrir:    
+Gildi:    
+-}
+
+
+{-
+
+Notkun:   
+Fyrir:    
+Gildi:    
+-}
+
 
 {-
 
@@ -343,12 +507,9 @@ Gildi:
 -}
 
 
-
 {-
 
 Notkun:   
 Fyrir:    
 Gildi:    
 -}
-
-
