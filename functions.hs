@@ -465,8 +465,24 @@ Notkun:
 Fyrir:    
 Gildi:    
 -}
+fall1 x y = 
+  fall2 y
+  where
+    fall2 a =
+      if x==0
+        then x
+        else 2
 
 
+fall4 x y =
+  fall5
+  where
+    c = 10
+    fall5 a b =
+      if a == c
+        then "this is some dubious shit"
+        else "a er " ++ (show a) ++ "en c er " ++ (show c)
+  
 {-
 
 Notkun:   
