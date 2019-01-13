@@ -485,12 +485,22 @@ fall4 x y =
   
 {-
 
-Notkun:   
-Fyrir:    
-Gildi:    
+Notkun:   mergeSort a
+Fyrir:    a er listi samanburðarhæfra aðgerða
+Gildi:    Búið er að raða listanum a
 -}
+mergeSort a =
+  if length a <= 1
+    then a
+    else 
+      m = div (length a) 2
+      (mergeSort (lefthalf a))
+      (mergeSort (righthalf a))
+      merge a m
+      
 
-
+merge a m = 
+  
 {-
 
 Notkun:   
